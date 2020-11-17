@@ -30,4 +30,20 @@ describe('Mocking API', () => {
     // toHaveAttribute 属性があるか
     expect(screen.getByRole('button')).toHaveAttribute('disabled')
   })
-})
+  it('Fetch failure Should display error msg. no render heading and button abled', async()=> {
+      server.use(
+        rest.get(
+            'https://jsonplaceholder.typicode.com/users/1',
+            (req, res, ctx) => {
+            return res(ctx.status(404))
+        }
+        )
+        )
+        render(<MockServer />)
+        userEnent.click(screen.getByRole('button'))
+        expect(await screen.findByTestID('error')).toHaveTextContent(
+            'Fetching Failed !'
+            )
+            expect(screen.queryByRole('hading')).toBeNull()
+            expect(screen.getByRole('button')).not.toHaveAttribute('disabled')
+
