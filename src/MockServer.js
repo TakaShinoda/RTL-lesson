@@ -9,8 +9,9 @@ export const MockServer = () => {
     const fetchUser = async() => {
         axios.get('https://jsonplaceholder.typicode.com/users/1')
         .then((res) => {
-            const {usename} = res.data
-            setUsername(usename)
+            console.log(res.data)
+            const {username} = res.data
+            setUsername(username)
             setClicked(true)
         }).catch(() => {
             setError('Fetching Failed !')
